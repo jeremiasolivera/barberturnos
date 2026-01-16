@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('barberias', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('dirección')->nullable();
+            $table->string('direccion')->nullable();
             $table->string('telefono');
             $table->boolean('activo')->default(true);  // Permite suspender cuentas sin borrar
             $table->timestamps();
