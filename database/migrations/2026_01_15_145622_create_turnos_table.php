@@ -16,13 +16,16 @@ return new class extends Migration
             $table->foreignId('barberia_id')
                   ->constrained()
                   ->cascadeOnDelete();
-            $table->foreignId('servicio_id')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                  
+            // ? Servicio ID eliminado temporalmente
+            // $table->foreignId('servicio_id')
+            //       ->constrained()
+            //       ->cascadeOnDelete();
 
             $table->date('fecha');
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
+            $table->time('hora');
+            // $table->time('hora_inicio');
+            // $table->time('hora_fin');
 
             $table->string('nombre_cliente');
             $table->string('contacto_cliente');
@@ -30,6 +33,9 @@ return new class extends Migration
             $table->enum('estado', ['reservado', 'cancelado'])
                   ->default('reservado');
             
+            // Evita doble turno en mismo día y hora
+            
+
             $table->timestamps();
         });
     }

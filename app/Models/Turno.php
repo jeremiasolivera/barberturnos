@@ -13,11 +13,11 @@ class Turno extends Model
         'barberia_id',
         'servicio_id',
         'fecha',
-        'hora_inicio',
-        'hora_fin',
+        'hora',
         'nombre_cliente',
         'contacto_cliente',
-        'estado'
+        'estado',
+        'activo'
     ];
 
     public function barberia(){
