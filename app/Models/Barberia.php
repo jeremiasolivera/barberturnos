@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+
 
 class Barberia extends Model
 {
@@ -13,7 +16,10 @@ class Barberia extends Model
         'nombre',
         'direccion',
         'telefono',
-        'activo'
+        'activo',
+        'hora_apertura',
+        'hora_cierre',
+        'duracion_turno'
     ];
 
     public function servicios(){
@@ -29,5 +35,25 @@ class Barberia extends Model
 
     public function usuarios(){
         return $this->hasMany(User::class);
+    }
+
+    public function generarHorarios(): array
+    {
+        $inicio = Carbon::createFromTimeString($this->hora_apertura);
+        $fin    = Carbon::createFromTimeString($this->hora_cierre);
+
+        $periodo = CarbonPeriod::create(
+            $inicio,
+            "{$this->duracion_turno} minutes",
+            $fin->subMinutes($this->duracion_turno)
+        );
+
+        $horarios = [];
+
+        foreach ($periodo as $hora) {
+            $horarios[] = $hora->format('H:i');
+        }
+
+        return $horarios;
     }
 }

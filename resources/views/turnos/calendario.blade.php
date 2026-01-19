@@ -19,29 +19,27 @@
 </div>
 
 
-<div class="max-w-4xl mx-auto px-4"> {{-- Contenedor centrado y con ancho máximo --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-center"> {{-- Cuadrícula responsiva --}}
-        @php
-            $horaInicio = \Carbon\Carbon::createFromTime(9, 0);
-            $horaFin = \Carbon\Carbon::createFromTime(18, 0);
-        @endphp
+<div class="max-w-4xl mx-auto px-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-center">
 
-        @while ($horaInicio <= $horaFin) {{-- Cambiado a <= para incluir las 18:00 --}}
+        @foreach ($horarios as $horaStr)
             @php
-                $horaStr = $horaInicio->format('H:i');
                 $turno = $turnos->get($horaStr);
             @endphp
 
-            {{-- Tarjetas más pequeñas con texto ajustado --}}
             <div class="p-2 border rounded-lg shadow-sm flex flex-col justify-center min-h-[80px] transition-all
                 {{ $turno ? 'bg-red-100 border-red-300' : 'bg-green-100 border-green-300' }}">
-                
+
                 <strong class="text-sm md:text-base">{{ $horaStr }}</strong>
 
                 @if ($turno)
                     <div class="text-[10px] md:text-xs leading-tight mt-1">
-                        <span class="font-bold block truncate">{{ $turno->nombre_cliente }}</span>
-                        <span class="text-gray-600">{{ $turno->contacto_cliente }}</span>
+                        <span class="font-bold block truncate">
+                            {{ $turno->nombre_cliente }}
+                        </span>
+                        <span class="text-gray-600">
+                            {{ $turno->contacto_cliente }}
+                        </span>
                     </div>
                 @else
                     <div class="text-[10px] md:text-xs text-gray-500 italic mt-1">
@@ -49,11 +47,9 @@
                     </div>
                 @endif
             </div>
+        @endforeach
 
-            @php
-                $horaInicio->addMinutes(30);
-            @endphp
-        @endwhile
     </div>
 </div>
+
 </x-app-layout>

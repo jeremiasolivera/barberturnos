@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarberiaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TurnoController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,14 @@ Route::middleware('auth')->group(function () {
 
     // Turnos Peluquero
     Route::patch('/turnos/{turno}/cancelar',[TurnoController::class, 'cancelarPorPeluquero'])->name('turnos.cancelar');
-});
+
+    // Configuración de turnos
+    Route::get('/dashboard/configuracion', [BarberiaController::class, 'edit'])
+        ->name('barberia.configuracion');
+
+    Route::post('/dashboard/configuracion', [BarberiaController::class, 'update'])
+        ->name('barberia.configuracion.update');
+    });
 
 
 // Rutas del Cliente

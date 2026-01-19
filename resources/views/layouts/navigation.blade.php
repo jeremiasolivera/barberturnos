@@ -19,6 +19,9 @@
                     <x-nav-link :href="route('turnos.calendario')" :active="request()->routeIs('turnos.calendario')">
                         {{ __('Calendario') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('barberia.configuracion')" :active="request()->routeIs('barberia.configuracion')">
+                        {{ __('Configuración') }}
+                    </x-nav-link>
                 </div>
             </div>
 

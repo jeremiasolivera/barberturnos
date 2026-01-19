@@ -101,7 +101,10 @@ class TurnoController extends Controller
             'fecha' => ['required', 'date'],
         ]);
 
-        $horariosBase = $this->horariosBase();
+        $barberia = auth()->user()->barberia;
+
+        $horariosBase = $barberia->generarHorarios();
+
 
         $horariosOcupados = Turno::where('barberia_id', $barberia->id)
             ->where('fecha', $request->fecha)
@@ -129,23 +132,38 @@ class TurnoController extends Controller
     }
 
 
-    // Dashboard Peluquero
     public function calendarioDiario(Request $request)
-    {
-        $barberiaId = auth()->user()->barberia_id;
+{
+    $barberia = auth()->user()->barberia;
 
-        $fecha = $request->get('fecha')
-            ? Carbon::parse($request->get('fecha'))
-            : Carbon::today();
+    $fecha = $request->get('fecha')
+        ? Carbon::parse($request->get('fecha'))
+        : Carbon::today();
 
-        $turnos = Turno::where('barberia_id', $barberiaId)
-            ->where('fecha', $fecha->toDateString())
-            ->where('activo', true)
-            ->orderBy('hora')
-            ->get()
-            ->keyBy('horaFormateada');
+    $turnos = Turno::where('barberia_id', $barberia->id)
+        ->where('fecha', $fecha->toDateString())
+        ->where('activo', true)
+        ->get()
+        ->mapWithKeys(fn ($t) => [
+            Carbon::parse($t->hora)->format('H:i') => $t
+        ]);
 
-        return view('turnos.calendario', compact('fecha', 'turnos'));
-    }
+    $horariosConfigurados = collect(
+        $barberia->generarHorarios()
+    );
+
+    $horarios = $horariosConfigurados
+        ->merge($turnos->keys())
+        ->unique()
+        ->sort()
+        ->values();
+
+    return view('turnos.calendario', compact(
+        'fecha',
+        'horarios',
+        'turnos'
+    ));
+}
+
 
 }
