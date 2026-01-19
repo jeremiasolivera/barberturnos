@@ -129,4 +129,23 @@ class TurnoController extends Controller
     }
 
 
+    // Dashboard Peluquero
+    public function calendarioDiario(Request $request)
+    {
+        $barberiaId = auth()->user()->barberia_id;
+
+        $fecha = $request->get('fecha')
+            ? Carbon::parse($request->get('fecha'))
+            : Carbon::today();
+
+        $turnos = Turno::where('barberia_id', $barberiaId)
+            ->where('fecha', $fecha->toDateString())
+            ->where('activo', true)
+            ->orderBy('hora')
+            ->get()
+            ->keyBy('horaFormateada');
+
+        return view('turnos.calendario', compact('fecha', 'turnos'));
+    }
+
 }

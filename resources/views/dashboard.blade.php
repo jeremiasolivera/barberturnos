@@ -77,8 +77,8 @@
                 <h4 class="font-semibold mb-4">Próximos pasos</h4>
 
                 <ul class="list-disc ml-6 text-gray-700 space-y-2">
-                    <li>Gestionar turnos</li>
-                    <li>Configurar horarios</li>
+                    <li><a href="{{ url('/dashboard/calendario') }}">Calendario</a></li>
+                    <li><a href="{{ url('/barberias/1/turnos') }}">Agendar Turno</a></li>
                     <li>Agregar servicios</li>
                 </ul>
             </div>
