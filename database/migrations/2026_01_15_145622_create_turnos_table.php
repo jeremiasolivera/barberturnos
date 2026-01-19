@@ -30,10 +30,8 @@ return new class extends Migration
             $table->string('nombre_cliente');
             $table->string('contacto_cliente');
 
-            $table->enum('estado', ['reservado', 'cancelado'])
+            $table->enum('estado', ['reservado', 'cancelado_peluquero', 'cancelado_cliente'])
                   ->default('reservado');
-            
-            // Evita doble turno en mismo día y hora
             
 
             $table->timestamps();

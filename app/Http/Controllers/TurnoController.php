@@ -70,7 +70,17 @@ class TurnoController extends Controller
         }
 
 
-        echo($request->hora);
+        $existeTurno = Turno::where('barberia_id', $barberia->id)
+        ->where('fecha', $request->fecha)
+        ->where('hora', $request->hora)
+        ->where('activo', true)
+        ->exists();
+
+        if ($existeTurno) {
+            return back()->withErrors([
+                'hora' => 'Este horario ya ha sido reservado por otro cliente.',
+            ])->withInput();
+        }
 
         Turno::create([
             'barberia_id' => $barberia->id,
@@ -95,7 +105,7 @@ class TurnoController extends Controller
 
         $horariosOcupados = Turno::where('barberia_id', $barberia->id)
             ->where('fecha', $request->fecha)
-            ->where('estado', 'reservado')  // !
+            ->where('activo', true)
             ->pluck('hora')
             ->map(fn ($hora) => substr($hora, 0, 5))
             ->toArray();

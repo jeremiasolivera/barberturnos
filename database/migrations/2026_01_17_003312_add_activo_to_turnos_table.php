@@ -14,14 +14,14 @@ return new class extends Migration
           Schema::table('turnos', function (Blueprint $table) {
                 $table->boolean('activo')->default(true);
                 
-                $table->dropUnique(['barberia_id', 'fecha', 'hora']);
+                // $table->dropUnique(['barberia_id', 'fecha', 'hora']);
 
-                $table->unique([
-                'barberia_id',
-                'fecha',
-                'hora',
-                'activo'
-                ], 'turnos_unique_reservado');
+                // $table->unique([
+                // 'barberia_id',
+                // 'fecha',
+                // 'hora',
+                // 'activo'
+                // ], 'turnos_unique_reservado');
             });
     }
 
@@ -30,8 +30,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('turnos', function (Blueprint $table) {
-            //
+          Schema::table('turnos', function (Blueprint $table) {
+                $table->dropUnique('turnos_unique_reservado');
+                $table->dropColumn('activo');
         });
     }
 };
