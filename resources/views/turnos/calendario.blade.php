@@ -1,27 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Calendario Barbería</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-    
-<h1 class="text-xl font-bold mb-4">
-    Calendario del día {{ $fecha->format('d/m/Y') }}
-</h1>
+<x-app-layout>
 
-<form method="GET" class="mb-4">
-    <input
-        type="date"
-        name="fecha"
-        value="{{ $fecha->toDateString() }}"
-        class="border p-2"
-    >
-    <button class="ml-2 px-3 py-2 bg-blue-600 text-white rounded">
-        Ver
-    </button>
-</form>
+<div class="flex align-middle gap-10 mt-4"> 
+    <h1 class="text-xl font-bold mb-4 mt-4">
+    Calendario del día {{ $fecha->format('d/m/Y') }}
+    </h1>
+
+    <form method="GET" class="mb-4">
+        <input
+            type="date"
+            name="fecha"
+            value="{{ $fecha->toDateString() }}"
+            class="border p-2"
+        >
+        <button class="ml-2 px-3 py-2 bg-blue-600 text-white rounded">
+            Ver
+        </button>
+    </form>
+</div>
+
 
 <div class="max-w-4xl mx-auto px-4"> {{-- Contenedor centrado y con ancho máximo --}}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-center"> {{-- Cuadrícula responsiva --}}
@@ -60,6 +56,4 @@
         @endwhile
     </div>
 </div>
-
-</body>
-</html>
+</x-app-layout>
